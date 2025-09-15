@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="google-form-container">
+<div class="form-container">
     <div class="form-header">
         <h2>{{ $assessment->title }}</h2>
     </div>
@@ -33,7 +33,7 @@
             </div>
         @endforeach
         <div class="submit-button-container">
-            <button type="submit" class="btn btn-google-form">Submit</button>
+            <button type="submit" class="btn btn-submit-form">Submit</button>
         </div>
     </form>
 </div>
