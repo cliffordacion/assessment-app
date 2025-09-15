@@ -5,9 +5,13 @@
 <div class="google-form-container">
     <div class="form-header">
         <h2>{{ $assessment->title }}</h2>
-        <p>This is a description for your assessment. Please fill out the form below.</p>
     </div>
-    <form class="p-4">
+    @if(session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
+
+    <form method="POST" action="{{ route('assessment.submit', $assessment->id) }}">
+        @csrf
         @foreach($questions as $question)
             <div class="question-card">
                 <p class="fw-bold">{{ $question->text }}</p>
