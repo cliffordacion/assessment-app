@@ -25,10 +25,19 @@ class AssessmentController extends Controller
         $userId = 1; // Replace with auth()->id() if using authentication
 
         // TODO: create a separate validation class
-        $validated = $request->validate([
-            'answers' => 'required|array',
-            'answers.*' => 'nullable|string|max:255',
-        ]);
+        // Get all question IDs for this assessment
+        $questionIds = $assessment->questions()->pluck('id')->toArray();
+
+        // Build validation rules to require each answer
+        // For improvement:
+        //  - we can add a column on DB to determine if a field is required
+        //  - we can also add type (checkbox, text, etc)
+        $rules = ['answers' => 'required|array'];
+        foreach ($questionIds as $id) {
+            $rules["answers.$id"] = 'required|string|max:255';
+        }
+
+        $validated = $request->validate($rules);
 
         $this->assessmentService->saveAnswers($assessment, $userId, $validated['answers']);
 

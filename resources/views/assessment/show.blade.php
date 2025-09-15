@@ -9,11 +9,19 @@
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
+    @if($errors->any())
+        <div class="alert alert-danger">
+            Please answer all questions before submitting the assessment.
+        </div>
+    @endif
 
     <form method="POST" action="{{ route('assessment.submit', $assessment->id) }}">
         @csrf
         @foreach($questions as $question)
-            <div class="question-card">
+            @php
+                $hasError = $errors->has("answers.{$question->id}");
+            @endphp
+            <div class="question-card {{ $hasError ? 'border border-danger' : '' }}">
                 <p class="fw-bold">{{ $question->text }}</p>
                 @foreach($question->options as $option)
                     <div class="form-check">
@@ -23,7 +31,7 @@
                             name="answers[{{ $question->id }}]"
                             value="{{ $option['value'] }}"
                             id="q{{ $question->id }}_{{ $option['value'] }}"
-                            {{ (isset($answers[$question->id]) && $answers[$question->id] == $option['value']) ? 'checked' : '' }}
+                            {{ (old("answers.{$question->id}", $answers[$question->id] ?? null) == $option['value']) ? 'checked' : '' }}
                         >
                         <label class="form-check-label" for="q{{ $question->id }}_{{ $option['value'] }}">
                             {{ $option['label'] }}
