@@ -2,7 +2,6 @@
 
 ## Requirements
 - docker/docker-compose
-- node v20
 
 ## Disclaimer
 Frontend UI/UX are mostly created with an aid of AI (Roo Code + Gemini and Github Copilot) mimicking a google form:
@@ -15,6 +14,7 @@ Frontend UI/UX are mostly created with an aid of AI (Roo Code + Gemini and Githu
    ```bash
    git clone git@github.com:cliffordacion/assessment-app.git
    cd assessment-app
+   git checkout task/assessment-app
    ```
 
 2. Install PHP dependencies and copy `.env.example` to your `.env`
@@ -32,19 +32,18 @@ Frontend UI/UX are mostly created with an aid of AI (Roo Code + Gemini and Githu
     ./vendor/bin/sail up -d
     ```
     * optional: https://laravel.com/docs/12.x/sail#configuring-a-shell-alias
-    
-    This will start the application on http://localhost, which will show the laravel welcome page
 
 5. Run database migration/schema and seeds/initial data
     ```bash
     ./vendor/bin/sail artisan migrate --seed
     ```
-    This will now make the Form Accessible on:
+    This will start the application on http://localhost, which will show the laravel welcome page
+    And will now make the Form Accessible on:
     - http://localhost/assessment/1 -> Partially Filled Form
     - http://localhost/assessment/2 -> No value form
 
 6. Install and Compile frontend assets to make the forms presentable
     ```bash
-    npm install
-    npm run dev
+    ./vendor/bin/sail npm install
+    ./vendor/bin/sail npm run dev
     ```
