@@ -1,27 +1,36 @@
-{{-- filepath: resources/views/assessment/show.blade.php --}}
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <h2>{{ $assessment->title }}</h2>
-    <form>
+
+<div class="google-form-container">
+    <div class="form-header">
+        <h2>{{ $assessment->title }}</h2>
+        <p>This is a description for your assessment. Please fill out the form below.</p>
+    </div>
+    <form class="p-4">
         @foreach($questions as $question)
-            <div class="mb-4">
-                <p><strong>{{ $question->text }}</strong></p>
+            <div class="question-card">
+                <p class="fw-bold">{{ $question->text }}</p>
                 @foreach($question->options as $option)
-                    <label>
+                    <div class="form-check">
                         <input
+                            class="form-check-input"
                             type="radio"
                             name="answers[{{ $question->id }}]"
                             value="{{ $option['value'] }}"
+                            id="q{{ $question->id }}_{{ $option['value'] }}"
                             {{ (isset($answers[$question->id]) && $answers[$question->id] == $option['value']) ? 'checked' : '' }}
                         >
-                        {{ $option['label'] }}
-                    </label><br>
+                        <label class="form-check-label" for="q{{ $question->id }}_{{ $option['value'] }}">
+                            {{ $option['label'] }}
+                        </label>
+                    </div>
                 @endforeach
             </div>
         @endforeach
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <div class="submit-button-container">
+            <button type="submit" class="btn btn-google-form">Submit</button>
+        </div>
     </form>
 </div>
 @endsection
